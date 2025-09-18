@@ -1,119 +1,40 @@
-import axios from 'axios';
+The code appears to have alignment and indentation issues because of improper formatting or a lack of consistent code styling.This can happen
+if :
 
-const API_URL = '/api/bugs';
+1. ** Code Editor Settings **: Your code editor might not have proper formatting settings enabled, such as Prettier or ESLint, which automatically format the code on save.
 
-const getAllBugs = async() => {
-    const response = await axios.get(API_URL);
-    return response.data;
-};
+2. ** Manual Edits **: If the code was manually edited without adhering to a consistent style, it can lead to misaligned code.
 
-const createBug = async(bugData) => {
-    const response = await axios.post(API_URL, bugData);
-    return response.data;
-};
+3. ** Copy - Paste Issues **: Copying and pasting code from one source to another can sometimes introduce formatting issues, especially
+if the source or destination uses different tab / space settings.
 
-const updateBug = async(id, bugData) => {
-    const response = await axios.put(`${API_URL}/${id}`, bugData);
-    return response.data;
-};
+4. ** Corrupted Code **: The code might have been corrupted during a previous operation, such as merging or editing.
 
-const deleteBug = async(id) => {
-    const response = await axios.delete(`${API_URL}/${id}`);
-    return response.data;
-};
+To fix this issue and prevent it from recurring:
 
-const bugService = {
-    getAllBugs,
-    createBug,
-    updateBug,
-    deleteBug,
-};
+    1. ** Use a Code Formatter **: Install a code formatter like Prettier in your code editor(e.g., VS Code).Configure it to format the code on save.
 
-export default bugService;
-    };
+2. ** Linting Tools **: Use ESLint with a configuration file to enforce consistent code style.
 
-    const handleCreateBug = async(bugData) => {
-        try {
-            console.log('Creating bug:', bugData); // Debug log
-            const newBug = await bugService.createBug(bugData);
-            setBugs([newBug, ...bugs]);
-            setError(null);
-        } catch (err) {
-            console.error('Error creating bug:', err); // Debug log
-            setError('Failed to create bug. Please check your input.');
-        }
-    };
+3. ** Check Editor Settings **: Ensure your editor is set to use spaces or tabs consistently(e.g., 2 spaces or 4 spaces
+    for indentation).
 
-    const handleUpdateBug = async(id, updates) => {
-        try {
-            console.log('Updating bug:', { id, updates }); // Debug log
-            const updatedBug = await bugService.updateBug(id, updates);
-            setBugs(bugs.map(bug => bug._id === id ? updatedBug : bug));
-            setEditingBug(null);
-            setError(null);
-        } catch (err) {
-            console.error('Error updating bug:', err); // Debug log
-            setError('Failed to update bug.');
-        }
-    };
+4. ** Validate Syntax **: Ensure the code is syntactically correct, as syntax errors can sometimes confuse formatters.
 
-    const handleDeleteBug = async(id) => {
-        if (window.confirm('Are you sure you want to delete this bug?')) {
-            try {
-                console.log('Deleting bug:', id); // Debug log
-                await bugService.deleteBug(id);
-                setBugs(bugs.filter(bug => bug._id !== id));
-                setError(null);
-            } catch (err) {
-                console.error('Error deleting bug:', err); // Debug log
-                setError('Failed to delete bug.');
-            }
-        }
-    };
+Here’ s how you can fix the indentation issues in your code using Prettier:
 
-    return ( <
-        ErrorBoundary >
-        <
-        div className = "App" >
-        <
-        header className = "App-header" >
-        <
-        h1 > 🐛Bug Tracker < /h1> <
-        /header> <
-        main className = "App-main" > {
-            error && ( <
-                div className = "error-message"
-                role = "alert" > { error } <
-                button onClick = {
-                    () => setError(null) } > ✕ < /button> <
-                /div>
-            )
-        } <
-        section className = "bug-form-section" >
-        <
-        h2 > { editingBug ? 'Edit Bug' : 'Report New Bug' } < /h2> <
-        BugForm onSubmit = { editingBug ? (data) => handleUpdateBug(editingBug._id, data) : handleCreateBug }
-        editingBug = { editingBug }
-        onCancel = { editingBug ? () => setEditingBug(null) : null }
-        /> <
-        /section> <
-        section className = "bug-list-section" >
-        <
-        h2 > Bug List < /h2> {
-            loading ? ( <
-                div className = "loading" > Loading bugs... < /div>
-            ) : ( <
-                BugList bugs = { bugs }
-                onEdit = { setEditingBug }
-                onDelete = { handleDeleteBug }
-                />
-            )
-        } <
-        /section> <
-        /main> <
-        /div> <
-        /ErrorBoundary>
-    );
-}
+    1. Install Prettier:
+    ``
+`bash
+    npm install --save-dev prettier
+    `
+``
 
-export default App;
+2. Format the file:
+    ``
+`bash
+    npx prettier --write client/src/App.js
+    `
+``
+
+This will automatically fix the indentation and alignment issues in your file.

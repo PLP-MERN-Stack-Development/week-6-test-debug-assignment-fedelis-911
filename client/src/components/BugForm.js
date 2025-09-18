@@ -1,63 +1,66 @@
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 
-const API_URL = '/api/bugs';
+const BugForm = ({ onSubmit, editingBug, onCancel }) => {
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [priority, setPriority] = useState('Low');
 
-const getAllBugs = async() => {
-    const response = await axios.get(API_URL);
-    return response.data;
+    useEffect(() => {
+        if (editingBug) {
+            setTitle(editingBug.title || '');
+            setDescription(editingBug.description || '');
+            setPriority(editingBug.priority || 'Low');
+        } else {
+            setTitle('');
+            setDescription('');
+            setPriority('Low');
+        }
+    }, [editingBug]);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        onSubmit({ title, description, priority });
+        if (!editingBug) {
+            setTitle('');
+            setDescription('');
+            setPriority('Low');
+        }
+    };
+
+    return ( <
+        form onSubmit = { handleSubmit } >
+        <
+        input type = "text"
+        placeholder = "Title"
+        value = { title }
+        onChange = {
+            (e) => setTitle(e.target.value)
+        }
+        required /
+        >
+        <
+        textarea placeholder = "Description"
+        value = { description }
+        onChange = {
+            (e) => setDescription(e.target.value)
+        }
+        required /
+        >
+        <
+        select value = { priority }
+        onChange = {
+            (e) => setPriority(e.target.value)
+        } >
+        <
+        option value = "Low" > Low < /option> <
+        option value = "Medium" > Medium < /option> <
+        option value = "High" > High < /option> < /
+        select > <
+        button type = "submit" > { editingBug ? 'Update Bug' : 'Add Bug' } < /button> {
+        editingBug && < button type = "button"
+        onClick = { onCancel } > Cancel < /button>} < /
+        form >
+    );
 };
 
-const createBug = async(bugData) => {
-    const response = await axios.post(API_URL, bugData);
-    return response.data;
-};
-
-const updateBug = async(id, bugData) => {
-    const response = await axios.put(`${API_URL}/${id}`, bugData);
-    return response.data;
-};
-
-const deleteBug = async(id) => {
-    const response = await axios.delete(`${API_URL}/${id}`);
-    return response.data;
-};
-
-const bugService = {
-    getAllBugs,
-    createBug,
-    updateBug,
-    deleteBug,
-};
-
-export default bugService;
-            input type = "text"
-            placeholder = "Title"
-            value = { title }
-            onChange = {
-                (e) => setTitle(e.target.value) }
-            required /
-            >
-            <
-            textarea placeholder = "Description"
-            value = { description }
-            onChange = {
-                (e) => setDescription(e.target.value) }
-            required /
-            >
-            <
-            select value = { priority }
-            onChange = {
-                (e) => setPriority(e.target.value) } >
-            <
-            option value = "Low" > Low < /option> <
-            option value = "Medium" > Medium < /option> <
-            option value = "High" > High < /option> <
-            /select> <
-            button type = "submit" > { editingBug ? 'Update Bug' : 'Add Bug' } < /button> {
-                editingBug && < button type = "button"
-                onClick = { onCancel } > Cancel < /button>} <
-                    /form>
-            );
-        };
-
-        export default BugForm;
+export default BugForm;
